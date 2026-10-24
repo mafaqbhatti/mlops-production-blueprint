@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🎓 Student Score Predictor — End-to-End MLOps Pipeline
+# 🚀 MLOps Production Blueprint — End-to-End Machine Learning Operations
 
 **A small model, taken all the way to production — the right way.**
 
@@ -19,6 +19,23 @@
 
 </div>
 
+> [!NOTE]
+> ### ☁️ Live Cloud Deployment & CI/CD Status
+> **Infrastructure Status: Safely Decommissioned (Credit Expiration & Cost Control)**
+> 
+> This pipeline was previously provisioned and live-tested on AWS for 6 months using AWS Free Tier and promotional credits. Following the testing lifecycle and credit expiration, all live AWS resources (Lambda, S3, ECR) were intentionally decommissioned to prevent unexpected cloud billing, and AWS secrets were retired from GitHub Actions.
+> 
+> **Why the GitHub Actions cloud deployment step shows paused / failed:**
+> Remote CI/CD jobs requiring live AWS authentication will report:
+> ```text
+> Run aws-actions/configure-aws-credentials@v4
+> Error: Credentials could not be loaded, please check your action inputs: Could not load credentials from any providers
+> ```
+> **What remains 100% active & reproducible:**
+> - ✅ **Local MLOps Flow:** Data validation (`pandera`), data versioning (`dvc repro`), experiment tracking (`mlflow`), pipeline orchestration (`prefect`), and serving (`fastapi` / `bentoml`).
+> - ✅ **Testing & Containers:** Full test suite (`pytest`) and multi-stage Docker builds run entirely offline.
+> - ✅ **Turnkey Cloud Re-deployment:** The complete Terraform/OpenTofu (`infra/main.tf`) infrastructure and GitHub Actions deployment workflows are fully intact and ready to deploy to any active AWS account simply by adding `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` to repository secrets.
+
 ---
 
 ## 📌 About
@@ -33,7 +50,7 @@ The model itself is deliberately simple. The point of this repo is everything *a
 
 ## 📋 Table of Contents
 
-- [🎓 Student Score Predictor — End-to-End MLOps Pipeline](#-student-score-predictor--end-to-end-mlops-pipeline)
+- [🚀 MLOps Production Blueprint — End-to-End Machine Learning Operations](#-mlops-production-blueprint--end-to-end-machine-learning-operations)
   - [📌 About](#-about)
   - [📋 Table of Contents](#-table-of-contents)
   - [🏗 Architecture](#-architecture)
@@ -256,6 +273,8 @@ GitHub Actions (`.github/workflows/ml-ci-cd.yml`) runs three jobs:
 - **On every pull request** → install, test, `dvc repro`, run the quality gate. A regression **blocks the merge**.
 - **On merge to `main`** → promote the model, build the Docker image, push to ECR, deploy to Lambda.
 - **On a daily cron schedule** → pull logged production predictions from S3, run an Evidently drift check, publish the result to CloudWatch — independent of whether any code changed that day.
+
+> ℹ️ *Note: The merge-to-main deployment job requires active AWS secrets configured in GitHub Actions. Since the demo AWS environment has been decommissioned, this stage is currently paused.*
 
 ---
 
